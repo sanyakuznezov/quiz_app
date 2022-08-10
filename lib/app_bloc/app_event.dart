@@ -13,7 +13,9 @@ part of 'app_bloc.dart';
 
 
  class GetQuiz extends AppEvent{
-
+  final  String difficulty;
+  final  String topics;
+  const GetQuiz({required this.difficulty,required this.topics});
  }
  class SaveStatistics extends AppEvent{
 

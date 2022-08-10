@@ -9,8 +9,8 @@ class AppTheme{
   static ThemeData get lightTheme{
     return ThemeData(
       progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: colorBlack,
-        circularTrackColor: colorGrey
+        color: color128,
+        circularTrackColor: color128_40
       )
     );
   }

@@ -3,7 +3,7 @@
 
 
   import 'package:flutter/material.dart';
-  import 'package:quiz_app/resources/constants.dart';
+  import 'package:quiz_app/resources/app_constants.dart';
   import 'package:quiz_app/resources/app_colors.dart';
 
 class SplashScreen extends StatelessWidget{

@@ -6,7 +6,7 @@ import 'package:quiz_app/presentation/splash_screen.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:quiz_app/locator.dart' as di;
 import 'app_bloc/app_bloc.dart';
-import 'app_theme.dart';
+import 'resources/app_theme.dart';
 
 void main() {
   di.setup();
