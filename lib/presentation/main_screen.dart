@@ -175,7 +175,7 @@ class _MainScreenState extends State<MainScreen> {
           }
 
           if(stateListener.qStatus==QuizStatus.successLoadQuiz){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>const QuizScreen()));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>QuizScreen()));
           }
         },
         ),

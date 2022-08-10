@@ -40,6 +40,8 @@ dependencies:
   flutter_bloc: ^7.3.0
   bloc_concurrency: ^0.1.0
   equatable: ^2.0.3
+  cloud_firestore: ^3.4.3
+  firebase_core: ^1.19.1
 
 
 dev_dependencies:
