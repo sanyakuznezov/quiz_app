@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiz_app/app_bloc/app_bloc.dart';
 import 'package:quiz_app/presentation/quiz_screen.dart';
 import 'package:quiz_app/resources/app_colors.dart';
+import 'package:quiz_app/utils/data_result.dart';
 
 import '../resources/app_images.dart';
 import '../resources/app_constants.dart';
@@ -39,7 +40,9 @@ class _MainScreenState extends State<MainScreen> {
         height: double.infinity,
         child: BlocConsumer<AppBloc,AppState>(
           builder: (context,state) {
-            if(state.qStatus==QuizStatus.successLoadQuiz||state.qStatus==QuizStatus.error){
+            if(state.qStatus==QuizStatus.loadingQuiz){
+              return const Center(child:  CircularProgressIndicator());
+            }
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -164,9 +167,7 @@ class _MainScreenState extends State<MainScreen> {
               );
 
 
-            }else{
-              return const CircularProgressIndicator();
-            }
+
 
           }, listener: ( context,stateListener) {
           if(stateListener.qStatus==QuizStatus.error){
@@ -175,7 +176,9 @@ class _MainScreenState extends State<MainScreen> {
           }
 
           if(stateListener.qStatus==QuizStatus.successLoadQuiz){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>QuizScreen()));
+            DataResult.updateDifficultyLevel(diff: _typeDifficulty);
+            DataResult.updateThemes(tm: _typeTopics);
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const QuizScreen()));
           }
         },
         ),

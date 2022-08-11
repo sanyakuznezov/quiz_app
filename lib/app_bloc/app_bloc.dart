@@ -18,19 +18,23 @@ part 'app_state.dart';
    loaded,
    error,
    loadingQuiz,
-   successLoadQuiz
+   successLoadQuiz,
+   loadingResult,
+   successLoadResult
  }
+
+
+
+
 
   class AppBloc extends Bloc<AppEvent, AppState>{
 
-
-
-    AppBloc():
-    super(AppState.unknown()){
+   AppBloc():super(AppState.unknown()){
       on<GetQuiz>(_getQuiz);
       on<SaveStatistics>(_saveStatistics);
       on<InitApp>(_initApp);
     }
+
 
 
     _getQuiz(GetQuiz event,emit)async{
@@ -46,8 +50,12 @@ part 'app_state.dart';
     }
 
     _saveStatistics(event,emit)async{
-
+      emit(state.copyWith(qStatus: QuizStatus.loadingResult));
+      await ApiQuiz.saveResultFirebase();
+      emit(state.copyWith(qStatus: QuizStatus.successLoadResult));
     }
+
+
 
     _initApp(event,emit)async{
       emit(state.copyWith(qStatus: QuizStatus.loading));

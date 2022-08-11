@@ -18,7 +18,8 @@ part of 'app_bloc.dart';
   const GetQuiz({required this.difficulty,required this.topics});
  }
  class SaveStatistics extends AppEvent{
-
+   final Map<String,dynamic> map;
+   const SaveStatistics({required this.map});
  }
 
  class InitApp extends AppEvent{

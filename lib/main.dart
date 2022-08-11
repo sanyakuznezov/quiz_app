@@ -1,15 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiz_app/presentation/main_screen.dart';
-import 'package:quiz_app/presentation/quiz_screen.dart';
 import 'package:quiz_app/presentation/splash_screen.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:quiz_app/locator.dart' as di;
 import 'app_bloc/app_bloc.dart';
 import 'resources/app_theme.dart';
 
-void main() {
+void main() async{
   di.setup();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

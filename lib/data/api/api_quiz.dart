@@ -1,10 +1,12 @@
 
 
 
- import 'package:dio/dio.dart';
+ import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:quiz_app/data/dio_client/dio_client_quiz.dart';
 import 'package:quiz_app/data/models/model_quiz.dart';
 import 'package:quiz_app/resources/app_constants.dart';
+import 'package:quiz_app/utils/data_result.dart';
 
 import '../../locator.dart';
 import '../../utils/failure.dart';
@@ -53,6 +55,16 @@ class ApiQuiz{
 
      }
      return null;
+   }
+
+
+   static Future<void> saveResultFirebase() async{
+     try{
+       await FirebaseFirestore.instance.collection('result').doc().set(DataResult.getResult);
+     } on FirebaseException catch(error){
+        throw const Failure('Data sending error');
+     }
+
    }
 
 

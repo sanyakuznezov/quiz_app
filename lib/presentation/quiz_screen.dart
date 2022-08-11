@@ -9,13 +9,15 @@ import 'package:quiz_app/data/models/model_quiz.dart';
 import 'package:quiz_app/presentation/result_screen.dart';
 import 'package:quiz_app/resources/app_colors.dart';
 import 'package:quiz_app/resources/app_images.dart';
-
+import 'package:quiz_app/utils/data_result.dart';
 import '../resources/app_constants.dart';
 
-class QuizScreen extends StatelessWidget{
-   QuizScreen({Key? key}) : super(key: key);
-  final PageController pageController=PageController();
+  final PageController _pageController=PageController();
+  final List<String> _listAnswerResult=[];
   int i=0;
+
+class QuizScreen extends StatelessWidget{
+  const QuizScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AppBloc,AppState>(
@@ -33,15 +35,17 @@ class QuizScreen extends StatelessWidget{
            height: double.infinity,
            child: PageView(
              physics:const NeverScrollableScrollPhysics(),
-             controller: pageController,
+             controller: _pageController,
              children: List.generate(state.listQuiz.length, (index) {
                return Center(child: _ItemQuiz(modelQuiz: state.listQuiz[index],
-               call: (){
+               call: (value){
                  i++;
+                 _listAnswerResult.add(value!);
                  if(i==state.listQuiz.length){
-                   Navigator.push(context, MaterialPageRoute(builder: (_)=>ResultScreen()));
+                   _setResult();
+                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>const ResultScreen()));
                  }else{
-                   pageController.animateToPage(i, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+                   _pageController.animateToPage(i, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
                  }
 
                },));
@@ -53,6 +57,23 @@ class QuizScreen extends StatelessWidget{
   }
 
 
+  _setResult(){
+    final date=DateTime.now().toString();
+    int ra=0;
+    int wa=0;
+   for (var element in _listAnswerResult) {
+      if(element=="true"){
+        ra++;
+      }else{
+        wa++;
+      }
+   }
+    DataResult.updateRightAnswers(ra: ra.toString());
+    DataResult.updateWrongAnswers(wa: wa.toString());
+   DataResult.updateDate(date: date);
+
+  }
+
 
 
 
@@ -61,11 +82,13 @@ class QuizScreen extends StatelessWidget{
 
 
 
+
+
    class _ItemQuiz extends StatefulWidget{
        _ItemQuiz({Key? key,required this.modelQuiz,required this.call}) : super(key: key);
 
      final ModelQuiz modelQuiz;
-     var call=(){};
+     var call=(String? value)=>value;
 
   @override
   State<_ItemQuiz> createState() => _ItemQuizState();
@@ -109,8 +132,8 @@ class _ItemQuizState extends State<_ItemQuiz> {
           Column(
               children: List.generate(_listAnswer.length, (index) {
                   return _ItemAnswer(answer: _listAnswer[index], correct: _listCorrect[index],
-                    onTap: (){
-                    widget.call();
+                    onTap: (value){
+                    widget.call(value);
                     },);
               }),
             ),
@@ -155,7 +178,7 @@ class _ItemQuizState extends State<_ItemQuiz> {
 
     final String answer;
     final String correct;
-    var onTap=(){};
+    var onTap=(String? value)=>value;
 
 
   @override
@@ -172,7 +195,7 @@ class _ItemAnswerState extends State<_ItemAnswer> {
         setState(() {
             _isChek=true;
         });
-        widget.onTap();
+        widget.onTap(widget.correct);
       },
       child: Container(
           padding: const EdgeInsets.all(20),
